@@ -1,6 +1,9 @@
 name: Unzip DodecaDragonsTree
 on:
-  workflow_dispatch: # Allows you to run this manually with a button click
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   unpack:
