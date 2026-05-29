@@ -1,0 +1,33 @@
+name: Move Project Files
+
+on:
+  workflow_dispatch: # Allows you to run this manually from the Actions tab
+
+jobs:
+  move-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Move files out of folder
+        run: |
+          # Check if the folder exists to avoid errors
+          if [ -d "Project 5" ]; then
+            # Move all hidden and non-hidden files/folders out
+            shopt -s dotglob
+            mv "Project 5"/* .
+            # Remove the empty directory
+            rmdir "Project 5"
+          else
+            echo "Directory 'Project 5' not found."
+            exit 1
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@://github.com"
+          git add -A
+          git commit -m "Automation: Move all files out of Project 5"
+          git push
