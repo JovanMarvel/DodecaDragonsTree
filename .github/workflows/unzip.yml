@@ -1,0 +1,23 @@
+name: Unzip DodecaDragonsTree
+on:
+  workflow_dispatch: # Allows you to run this manually with a button click
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Uncompress Archive
+        run: |
+          unzip DodecaDragonsTree.zip -d .
+          rm DodecaDragonsTree.zip
+
+      - name: Commit Extracted Files
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Unzipped DodecaDragonsTree.zip contents"
+          git push
