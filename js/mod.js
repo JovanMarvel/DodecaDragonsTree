@@ -12,15 +12,20 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0.1",
-	name: "Initial Release",
+	num: "0.0.2",
+	name: "Fire Update",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.0.2 (May 30, 2026)</h3><br>
+		- Fire now multiplies miner production.<br>
+		- Added fire upgrades (currently didn't exist).<br>
+		- Fire production now disabled before Dragon unlock.<br>
+		- Added notify for available upgrades.<br><br>
 	<h3>v0.0.1 (May 29, 2026)</h3><br>
 		- Created game.<br>
 		- Added a dragon.<br>
-		- Added fire.`
+		- Added fire (does nothing for now).`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -43,6 +48,7 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = player.g.miners
+	gain = gain.mul(layers.d.fireEffect())
 	return gain
 }
 
@@ -57,7 +63,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.unlocks >= 1
+	return player.unlocks >= 2
 }
 
 
