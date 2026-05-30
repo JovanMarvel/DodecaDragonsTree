@@ -82,7 +82,8 @@ addLayer("d", {
     }},
     layerShown() {return player.unlocks >= 1},
     shouldNotify() {
-        return (layers.d.clickables.unlock2.canClick() && layers.d.clickables.unlock2.unlocked())
+        return (layers.d.clickables.unlock2.canClick() && layers.d.clickables.unlock2.unlocked()) ||
+            (layers.d.clickables.upgradedragon2.canClick() && layers.d.clickables.upgradedragon2.unlocked())
     },
     getFireGain() {
         let gain = new Decimal(1)
@@ -169,52 +170,52 @@ addLayer("f", {
     },
     buyables: {
         0: {
-            display() { return "Multiplies fire gain by x" + format(layers.f.buyables[0].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[0]) + ".<br>Cost: " + format(layers.f.buyables[0].cost()) + " fire." },
+            display() { return "Multiplies fire gain by x" + format(layers.f.buyables[0].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[0]) + ".<br>Cost: " + format(layers.f.buyables[0].cost(player.f.buyables[0])) + " fire." },
             effect() { return new Decimal(2).pow(player.f.buyables[0].pow(0.6)) },
             cost(x) { return new Decimal(1.8).pow(x).mul(50) },
-            canAfford() { return player.d.fire.gte(layers.f.buyables[0].cost()) },
+            canAfford() { return player.d.fire.gte(layers.f.buyables[0].cost(player.f.buyables[0])) },
             buy() {
-                player.d.fire = player.d.fire.sub(layers.f.buyables[0].cost())
+                player.d.fire = player.d.fire.sub(layers.f.buyables[0].cost(player.f.buyables[0]))
                 player.f.buyables[0] = player.f.buyables[0].add(1)
             }
         },
         1: {
-            display() { return "Increase fire effect by x" + format(layers.f.buyables[1].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[1]) + ".<br>Cost: " + format(layers.f.buyables[1].cost()) + " fire." },
+            display() { return "Increase fire effect by x" + format(layers.f.buyables[1].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[1]) + ".<br>Cost: " + format(layers.f.buyables[1].cost(player.f.buyables[1])) + " fire." },
             effect() { return new Decimal(1.25).pow(player.f.buyables[1].pow(0.8)) },
             cost(x) { return new Decimal(2).pow(x).mul(100) },
-            canAfford() { return player.d.fire.gte(layers.f.buyables[1].cost()) },
+            canAfford() { return player.d.fire.gte(layers.f.buyables[1].cost(player.f.buyables[1])) },
             buy() {
-                player.d.fire = player.d.fire.sub(layers.f.buyables[1].cost())
+                player.d.fire = player.d.fire.sub(layers.f.buyables[1].cost(player.f.buyables[1]))
                 player.f.buyables[1] = player.f.buyables[1].add(1)
             }
         },
         2: {
-            display() { return "Increase gold/click by x" + format(layers.f.buyables[2].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[2]) + ".<br>Cost: " + format(layers.f.buyables[2].cost()) + " fire." },
+            display() { return "Increase gold/click by x" + format(layers.f.buyables[2].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[2]) + ".<br>Cost: " + format(layers.f.buyables[2].cost(player.f.buyables[2])) + " fire." },
             effect() { return player.f.buyables[2].pow(2.6).mul(4).add(1) },
             cost(x) { return new Decimal(1.4).pow(x).mul(100) },
-            canAfford() { return player.d.fire.gte(layers.f.buyables[2].cost()) },
+            canAfford() { return player.d.fire.gte(layers.f.buyables[2].cost(player.f.buyables[2])) },
             buy() {
-                player.d.fire = player.d.fire.sub(layers.f.buyables[2].cost())
+                player.d.fire = player.d.fire.sub(layers.f.buyables[2].cost(player.f.buyables[2]))
                 player.f.buyables[2] = player.f.buyables[2].add(1)
             }
         },
         3: {
-            display() { return "Miners increase gold/second by x" + format(layers.f.buyables[3].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[3]) + ".<br>Cost: " + format(layers.f.buyables[3].cost()) + " fire." },
+            display() { return "Miners increase gold/second by x" + format(layers.f.buyables[3].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[3]) + ".<br>Cost: " + format(layers.f.buyables[3].cost(player.f.buyables[3])) + " fire." },
             effect() { return player.f.buyables[3].pow(1.5).mul(player.g.miners).div(50).add(1) },
             cost(x) { return new Decimal(1.5).pow(x).mul(500) },
-            canAfford() { return player.d.fire.gte(layers.f.buyables[3].cost()) },
+            canAfford() { return player.d.fire.gte(layers.f.buyables[3].cost(player.f.buyables[3])) },
             buy() {
-                player.d.fire = player.d.fire.sub(layers.f.buyables[3].cost())
+                player.d.fire = player.d.fire.sub(layers.f.buyables[3].cost(player.f.buyables[3]))
                 player.f.buyables[3] = player.f.buyables[3].add(1)
             }
         },
         4: {
-            display() { return "Gold increases fire/second by x" + format(layers.f.buyables[4].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[4]) + ".<br>Cost: " + format(layers.f.buyables[4].cost()) + " fire." },
+            display() { return "Gold increases fire/second by x" + format(layers.f.buyables[4].effect()) + ".<br>Bought: " + formatWhole(player.f.buyables[4]) + ".<br>Cost: " + format(layers.f.buyables[4].cost(player.f.buyables[4])) + " fire." },
             effect() { return player.f.buyables[4].pow(1.5).mul(player.points.add(1).log10()).div(5).add(1) },
             cost(x) { return new Decimal(2.5).pow(x).mul(500) },
-            canAfford() { return player.d.fire.gte(layers.f.buyables[4].cost()) },
+            canAfford() { return player.d.fire.gte(layers.f.buyables[4].cost(player.f.buyables[4])) },
             buy() {
-                player.d.fire = player.d.fire.sub(layers.f.buyables[4].cost())
+                player.d.fire = player.d.fire.sub(layers.f.buyables[4].cost(player.f.buyables[4]))
                 player.f.buyables[4] = player.f.buyables[4].add(1)
             }
         },
