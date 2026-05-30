@@ -17,6 +17,9 @@ let VERSION = {
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.0.3 (May 30, 2026)</h3><br>
+		- Added fire upgrades (real).<br>
+		- Dragon can now become an adult.<br><br>
 	<h3>v0.0.2 (May 30, 2026)</h3><br>
 		- Fire now multiplies miner production.<br>
 		- Added fire upgrades (currently didn't exist).<br>
@@ -35,6 +38,56 @@ var doNotCallTheseFunctionsEveryTick = ["blowUpEverything"]
 
 function getStartPoints(){
     return new Decimal(modInfo.initialStartPoints)
+}
+
+// Determines if it should show points/sec
+function canGenPoints(){
+	return player.g.miners.gte(1)
+}
+
+// Calculate points/sec!
+function getPointGen() {
+	if(!canGenPoints())
+		return new Decimal(0)
+
+	let gain = player.g.miners
+	gain = gain.mul(layers.d.fireEffect())
+	gain = gain.mul(layers.f.buyables[3].effect())
+	return gain
+}
+
+// You can add non-layer related variables that should to into "player" and be saved here, along with default values
+function addedPlayerData() { return {
+	unlocks: 0
+}}
+
+// Display extra things at the top of the page
+var displayThings = [
+]
+
+// Determines when the game "ends"
+function isEndgame() {
+	return player.d.stage >= 1
+}
+
+
+
+// Less important things beyond this point!
+
+// Style for the background, can be a function
+var backgroundStyle = {
+
+}
+
+// You can change this if you have things that can be messed up by long tick lengths
+function maxTickLength() {
+	return(3600) // Default is 1 hour which is just arbitrarily large
+}
+
+// Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
+// you can cap their current resources with this.
+function fixOldSave(oldVersion){
+}    return new Decimal(modInfo.initialStartPoints)
 }
 
 // Determines if it should show points/sec
